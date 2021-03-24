@@ -1,37 +1,33 @@
 <html>
     <head>
-        <meta charset = “utf-8”>
-        <link rel="stylesheet" href="css.css">
+        <meta charset = "utf-8">
         <style>
-            #songwriter, #lyricist{
-            text-align:right;
-            }
+            .character { color: black; }
+            .word { color: gray; }
         </style>
+        <script>
+            var req = new XMLHttpRequest( );
+            req.onreadystatechange = function a( ) {
+                console.log(this.readyState, this.status);
+                if ( this.readyState == 4 ){
+                    console.log(this.response);
+                    var data = JSON.parse(this.response);
+                    for (var i in data) {                                            // ➋
+                      var t = document.getElementById("template").cloneNode(true); // ➌
+                      t.removeAttribute("id");                                     // ➍
+                      t.children[0].innerText = data[i].id;                        // ➎
+                      t.children[1].innerText = data[i].msg;                       // ➏
+                      document.body.appendChild(t);     
+                    }
+                }
+            };
+            req.open("GET", "./data.txt");
+            req.send( );
+        </script>
     </head>
     <body>
-        <h1>
-            <img id = "logo" src = http://austiny.snu.ac.kr/image/javalogo.jpg height = "30px">    
-            애국가
-        </h1>
-
-
-        <p id = "songwriter">작곡: 안익태</p>
-        <p id = "lyricist" style = "color:red; font-size:15pt;" src="test">
-            <strong>작사:</strong> <i>미상</i></p>
-    
-
-
-    <h2>1절</h2>
-    <p class = "lyric">
-        동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.<br>
-        무궁화 삼천리 화려강산 대한 사람, 대한으로 길이 보전하세.
-    </p>
-    <h2>2절</h2>
-    <p class = "lyric">
-        남산 위에 저 소나무, 철갑을 두른 듯 바람서리 불변함은 우리 기상일세. <br>
-        무궁화 삼천리 화려강산 대한 사람, 대한으로 길이 보전하세.
-    </p>
-</body>
-
-
+        <p id = "template">
+        <span class = "character">주인공</span> : <span class = "word">명대사</span>
+        </p>
+    </body>
 </html>
